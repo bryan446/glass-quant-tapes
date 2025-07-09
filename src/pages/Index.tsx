@@ -4,6 +4,7 @@ import { TrendingUp, Users, Play, Filter, Grid, List } from 'lucide-react';
 import Header from '@/components/Header';
 import InterviewCard from '@/components/InterviewCard';
 import InterviewForm from '@/components/InterviewForm';
+import InterviewQuestions from '@/components/InterviewQuestions';
 import { Button } from '@/components/ui/button';
 
 const Index = () => {
@@ -228,6 +229,13 @@ const Index = () => {
               <InterviewCard key={interview.id} {...interview} />
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Interview Questions Section */}
+      <section id="questions" className="px-6 pb-16">
+        <div className="container mx-auto">
+          <InterviewQuestions />
         </div>
       </section>
 

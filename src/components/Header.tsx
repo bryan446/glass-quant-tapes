@@ -27,15 +27,21 @@ const Header = () => {
             <a href="#" className="text-foreground/80 hover:text-foreground transition-colors morphic-hover">
               Interviews
             </a>
+            <a href="#questions" className="text-foreground/80 hover:text-foreground transition-colors morphic-hover">
+              Questions
+            </a>
             <a href="#" className="text-foreground/80 hover:text-foreground transition-colors morphic-hover">
               Experts
             </a>
             <a href="#" className="text-foreground/80 hover:text-foreground transition-colors morphic-hover">
               Categories
             </a>
-            <a href="#" className="text-foreground/80 hover:text-foreground transition-colors morphic-hover">
-              About
-            </a>
+            <Button 
+              variant="ghost" 
+              className="glass-card border-white/20 hover:bg-white/5 text-primary font-medium morphic-hover"
+            >
+              Sign In
+            </Button>
           </nav>
 
           {/* Search Bar */}
