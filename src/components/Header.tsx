@@ -12,11 +12,13 @@ const Header = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 glass-card rounded-xl flex items-center justify-center pulse-glow">
-              <div className="w-6 h-6 bg-gradient-to-r from-purple-400 to-blue-400 rounded-md"></div>
+            <div className="w-12 h-12 glass-card rounded-2xl flex items-center justify-center pulse-glow border border-white/20">
+              <div className="w-8 h-8 bg-gradient-to-br from-white via-accent to-primary rounded-xl flex items-center justify-center">
+                <div className="w-4 h-4 bg-background rounded-sm"></div>
+              </div>
             </div>
-            <h1 className="text-2xl font-bold glow-text bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-              TechTalks
+            <h1 className="text-3xl font-bold glow-text bg-gradient-to-r from-white via-accent to-primary bg-clip-text text-transparent tracking-tight">
+              Quanty
             </h1>
           </div>
 

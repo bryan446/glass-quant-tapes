@@ -124,10 +124,10 @@ const Index = () => {
             <div className="floating-particle" style={{ top: '60%', right: '30%' }}></div>
             <div className="floating-particle" style={{ bottom: '40%', right: '10%' }}></div>
             
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 glow-text bg-gradient-to-r from-purple-400 via-blue-400 to-emerald-400 bg-clip-text text-transparent">
-              Tech Interviews
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 glow-text bg-gradient-to-r from-white via-accent to-primary bg-clip-text text-transparent tracking-tight">
+              Quantitative Insights
               <br />
-              <span className="text-4xl md:text-6xl">Redefined</span>
+              <span className="text-4xl md:text-6xl">Amplified</span>
             </h1>
             <p className="text-xl md:text-2xl text-foreground/80 mb-8 max-w-3xl mx-auto leading-relaxed">
               Discover insights from the brightest minds in technology. From quantum computing to algorithmic trading, explore the future through expert conversations.
