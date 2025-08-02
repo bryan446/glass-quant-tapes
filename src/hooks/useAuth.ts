@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { User, Session } from '@supabase/supabase-js';
+import { User, Session, AuthChangeEvent } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 
 interface UserProfile {
@@ -28,7 +28,20 @@ export const useAuth = () => {
 
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      async (event: AuthChangeEvent, session: Session | null) => {
+        console.log('Auth state change:', event, session?.user?.email);
+        
+        if (event === 'SIGNED_OUT') {
+          // Clear everything on sign out
+          setSession(null);
+          setUser(null);
+          setProfile(null);
+          setIsGuest(false);
+          localStorage.removeItem('guestMode');
+          setLoading(false);
+          return;
+        }
+        
         setSession(session);
         setUser(session?.user ?? null);
         
@@ -73,10 +86,49 @@ export const useAuth = () => {
   }, []);
 
   const signOut = async () => {
-    await supabase.auth.signOut();
-    // Clear guest mode when signing out
-    localStorage.removeItem('guestMode');
-    setIsGuest(false);
+    try {
+      console.log('Starting sign out process...');
+      
+      // Clear all local state immediately
+      setLoading(true);
+      setUser(null);
+      setSession(null);
+      setProfile(null);
+      setIsGuest(false);
+      
+      // Clear all possible localStorage items
+      localStorage.removeItem('guestMode');
+      localStorage.removeItem('supabase.auth.token');
+      localStorage.clear();
+      
+      // Clear sessionStorage as well
+      sessionStorage.clear();
+      
+      // Sign out from Supabase
+      const { error } = await supabase.auth.signOut({
+        scope: 'global' // This signs out from all sessions
+      });
+      
+      if (error) {
+        console.error('Supabase signOut error:', error);
+      }
+      
+      console.log('Sign out completed, redirecting...');
+      
+      // Force a complete page reload to clear any cached auth state
+      window.location.replace('/auth');
+      
+    } catch (error) {
+      console.error('Error during sign out:', error);
+      // Force clear everything and redirect anyway
+      localStorage.clear();
+      sessionStorage.clear();
+      setUser(null);
+      setSession(null);
+      setProfile(null);
+      setIsGuest(false);
+      window.location.replace('/auth');
+    }
   };
 
   const continueAsGuest = () => {

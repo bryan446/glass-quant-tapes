@@ -18,7 +18,7 @@ const Auth = () => {
 
   // Redirect if already authenticated
   if (!authLoading && user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/home" replace />;
   }
 
   const handleEmailAuth = async (e: React.FormEvent) => {
@@ -27,11 +27,19 @@ const Auth = () => {
 
     try {
       if (isSignUp) {
+        // Determine the correct redirect URL based on environment
+        const currentOrigin = window.location.origin;
+        const redirectTo = currentOrigin.includes('localhost') 
+          ? `${currentOrigin}/home`
+          : `${currentOrigin}/home`;
+        
+        console.log('Email signup redirect will go to:', redirectTo);
+        
         const { error } = await supabase.auth.signUp({
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/`
+            emailRedirectTo: redirectTo
           }
         });
 
@@ -74,10 +82,18 @@ const Auth = () => {
 
   const handleGoogleAuth = async () => {
     try {
+      // Determine the correct redirect URL based on environment
+      const currentOrigin = window.location.origin;
+      const redirectTo = currentOrigin.includes('localhost') 
+        ? `${currentOrigin}/home`
+        : `${currentOrigin}/home`;
+      
+      console.log('OAuth redirect will go to:', redirectTo);
+      
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/`
+          redirectTo: redirectTo
         }
       });
 
@@ -99,7 +115,7 @@ const Auth = () => {
 
   const handleGuestMode = () => {
     continueAsGuest();
-    navigate('/');
+    navigate('/home');
   };
 
   if (authLoading) {

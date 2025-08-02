@@ -204,33 +204,63 @@ const About = () => {
               that have shaped your understanding of quantitative methods, machine learning, or finance.
             </p>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div className="glass-card p-6 gradient-border">
-                <h3 className="text-xl font-bold mb-3 text-primary">📚 Share Your Favorites</h3>
-                <p className="text-foreground/80 mb-4">
+            <div className="grid grid-cols-1 gap-6 mb-8">
+              <div className="glass-card p-6 md:p-8 gradient-border">
+                <div className="flex items-center mb-4">
+                  <div className="text-2xl mr-3">📚</div>
+                  <h3 className="text-xl md:text-2xl font-bold text-primary">Share Your Favorites</h3>
+                </div>
+                <p className="text-foreground/80 mb-6 text-base md:text-lg leading-relaxed">
                   Found a groundbreaking paper in ML, quant finance, or research methodology? 
                   Share it with the community and tell us why it's impactful.
                 </p>
-                <ul className="text-foreground/70 text-sm space-y-1">
-                  <li>• Paper title and authors</li>
-                  <li>• Brief summary of key insights</li>
-                  <li>• Why it influenced your work</li>
-                  <li>• Practical applications you've seen</li>
-                </ul>
+                <div className="space-y-3">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                    <span className="text-foreground/70 text-sm md:text-base">Paper title and authors</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                    <span className="text-foreground/70 text-sm md:text-base">Brief summary of key insights</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                    <span className="text-foreground/70 text-sm md:text-base">Why it influenced your work</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                    <span className="text-foreground/70 text-sm md:text-base">Practical applications you've seen</span>
+                  </div>
+                </div>
               </div>
               
-              <div className="glass-card p-6 gradient-border">
-                <h3 className="text-xl font-bold mb-3 text-primary">💬 Discuss & Connect</h3>
-                <p className="text-foreground/80 mb-4">
+              <div className="glass-card p-6 md:p-8 gradient-border">
+                <div className="flex items-center mb-4">
+                  <div className="text-2xl mr-3">💬</div>
+                  <h3 className="text-xl md:text-2xl font-bold text-primary">Discuss & Connect</h3>
+                </div>
+                <p className="text-foreground/80 mb-6 text-base md:text-lg leading-relaxed">
                   Comment on papers shared by others, ask questions, and build connections 
                   with fellow quants and researchers.
                 </p>
-                <ul className="text-foreground/70 text-sm space-y-1">
-                  <li>• Ask implementation questions</li>
-                  <li>• Share related work you've found</li>
-                  <li>• Discuss real-world applications</li>
-                  <li>• Connect with like-minded professionals</li>
-                </ul>
+                <div className="space-y-3">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                    <span className="text-foreground/70 text-sm md:text-base">Ask implementation questions</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                    <span className="text-foreground/70 text-sm md:text-base">Share related work you've found</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                    <span className="text-foreground/70 text-sm md:text-base">Discuss real-world applications</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                    <span className="text-foreground/70 text-sm md:text-base">Connect with like-minded professionals</span>
+                  </div>
+                </div>
               </div>
             </div>
             
@@ -251,16 +281,16 @@ const About = () => {
                 </div>
               </div>
               
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="mailto:bryanrodasquant@gmail.com?subject=Research Paper Recommendation&body=Hi Bryan,%0D%0A%0D%0AI'd like to share a research paper with the Quanty community:%0D%0A%0D%0APaper Title: %0D%0AAuthors: %0D%0ALink/DOI: %0D%0A%0D%0AWhy it's impactful: %0D%0A%0D%0AKey insights: %0D%0A%0D%0APractical applications: %0D%0A%0D%0ABest regards,">
-                  <Button className="glass-card bg-primary/20 hover:bg-primary/30 border border-primary/30 text-primary morphic-hover">
-                    <Mail className="w-4 h-4 mr-2" />
+              <div className="flex flex-col gap-4 justify-center">
+                <a href="mailto:bryanrodasquant@gmail.com?subject=Research Paper Recommendation&body=Hi Bryan,%0D%0A%0D%0AI'd like to share a research paper with the Quanty community:%0D%0A%0D%0APaper Title: %0D%0AAuthors: %0D%0ALink/DOI: %0D%0A%0D%0AWhy it's impactful: %0D%0A%0D%0AKey insights: %0D%0A%0D%0APractical applications: %0D%0A%0D%0ABest regards," className="w-full">
+                  <Button className="glass-card bg-primary/20 hover:bg-primary/30 border border-primary/30 text-primary morphic-hover w-full py-3 text-base">
+                    <Mail className="w-5 h-5 mr-3" />
                     Share a Research Paper
                   </Button>
                 </a>
-                <a href="mailto:bryanrodasquant@gmail.com?subject=Interview Suggestion&body=Hi Bryan,%0D%0A%0D%0AI think this would make a great interview topic:%0D%0A%0D%0APaper/Research Area: %0D%0AAuthor/Researcher: %0D%0AWhy it would be interesting: %0D%0A%0D%0ABest regards,">
-                  <Button variant="outline" className="glass-card border-white/20 hover:bg-white/5 morphic-hover">
-                    <Star className="w-4 h-4 mr-2" />
+                <a href="mailto:bryanrodasquant@gmail.com?subject=Interview Suggestion&body=Hi Bryan,%0D%0A%0D%0AI think this would make a great interview topic:%0D%0A%0D%0APaper/Research Area: %0D%0AAuthor/Researcher: %0D%0AWhy it would be interesting: %0D%0A%0D%0ABest regards," className="w-full">
+                  <Button variant="outline" className="glass-card border-white/20 hover:bg-white/5 morphic-hover w-full py-3 text-base">
+                    <Star className="w-5 h-5 mr-3" />
                     Suggest Interview Topic
                   </Button>
                 </a>

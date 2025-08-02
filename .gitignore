@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Google OAuth Client Secret - NEVER commit these!
+client_secret_*.json
+*.apps.googleusercontent.com.json
