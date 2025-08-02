@@ -14,13 +14,129 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      interviews: {
+        Row: {
+          category: string
+          company: string
+          created_at: string
+          created_by: string
+          date: string
+          description: string
+          duration: string
+          expert: string
+          id: string
+          image_url: string | null
+          likes: number
+          role: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          company: string
+          created_at?: string
+          created_by: string
+          date: string
+          description: string
+          duration: string
+          expert: string
+          id?: string
+          image_url?: string | null
+          likes?: number
+          role: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          company?: string
+          created_at?: string
+          created_by?: string
+          date?: string
+          description?: string
+          duration?: string
+          expert?: string
+          id?: string
+          image_url?: string | null
+          likes?: number
+          role?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+          role: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id: string
+          role?: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+          role?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      questions: {
+        Row: {
+          answer: string
+          category: string
+          created_at: string
+          created_by: string
+          difficulty: string
+          id: string
+          question: string
+          updated_at: string
+        }
+        Insert: {
+          answer: string
+          category: string
+          created_at?: string
+          created_by: string
+          difficulty: string
+          id?: string
+          question: string
+          updated_at?: string
+        }
+        Update: {
+          answer?: string
+          category?: string
+          created_at?: string
+          created_by?: string
+          difficulty?: string
+          id?: string
+          question?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_admin: {
+        Args: { user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
