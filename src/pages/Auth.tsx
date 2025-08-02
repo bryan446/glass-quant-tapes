@@ -85,8 +85,8 @@ const Auth = () => {
       // Determine the correct redirect URL based on environment
       const currentOrigin = window.location.origin;
       const redirectTo = currentOrigin.includes('localhost') 
-        ? `${currentOrigin}/home`
-        : `${currentOrigin}/home`;
+        ? `${currentOrigin}/auth/callback`
+        : `${currentOrigin}/auth/callback`;
       
       console.log('OAuth redirect will go to:', redirectTo);
       
@@ -98,6 +98,7 @@ const Auth = () => {
       });
 
       if (error) {
+        console.error('Google Auth Error:', error);
         toast({
           title: "Google Sign In Error",
           description: error.message,
@@ -105,6 +106,7 @@ const Auth = () => {
         });
       }
     } catch (error) {
+      console.error('Unexpected error:', error);
       toast({
         title: "Authentication Error",
         description: "Failed to sign in with Google. Please try again.",
