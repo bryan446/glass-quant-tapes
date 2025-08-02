@@ -5,13 +5,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
 
 interface InterviewFormProps {
   isOpen: boolean;
   onClose: () => void;
+  onSuccess?: () => void;
 }
 
-const InterviewForm: React.FC<InterviewFormProps> = ({ isOpen, onClose }) => {
+const InterviewForm: React.FC<InterviewFormProps> = ({ isOpen, onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
     title: '',
     expert: '',
@@ -20,8 +24,63 @@ const InterviewForm: React.FC<InterviewFormProps> = ({ isOpen, onClose }) => {
     category: '',
     duration: '',
     description: '',
-    videoUrl: ''
+    image_url: ''
   });
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+  const { user } = useAuth();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user) return;
+
+    setLoading(true);
+    try {
+      const { error } = await supabase
+        .from('interviews')
+        .insert({
+          title: formData.title,
+          expert: formData.expert,
+          role: formData.role,
+          company: formData.company,
+          category: formData.category,
+          duration: formData.duration,
+          description: formData.description,
+          image_url: formData.image_url,
+          date: new Date().toLocaleDateString(),
+          created_by: user.id
+        });
+
+      if (error) throw error;
+
+      toast({
+        title: "Success!",
+        description: "Interview has been published successfully.",
+      });
+
+      // Reset form
+      setFormData({
+        title: '',
+        expert: '',
+        role: '',
+        company: '',
+        category: '',
+        duration: '',
+        description: '',
+        image_url: ''
+      });
+
+      onSuccess?.();
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to publish interview. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -48,7 +107,7 @@ const InterviewForm: React.FC<InterviewFormProps> = ({ isOpen, onClose }) => {
           </div>
 
           {/* Form */}
-          <div className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-2 text-foreground/80">Interview Title</label>
@@ -99,13 +158,13 @@ const InterviewForm: React.FC<InterviewFormProps> = ({ isOpen, onClose }) => {
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent className="glass-card bg-background border-white/10">
-                    <SelectItem value="quant">Quantitative Finance</SelectItem>
-                    <SelectItem value="ml">Machine Learning</SelectItem>
-                    <SelectItem value="ai">Artificial Intelligence</SelectItem>
-                    <SelectItem value="blockchain">Blockchain</SelectItem>
-                    <SelectItem value="cybersecurity">Cybersecurity</SelectItem>
-                    <SelectItem value="data-science">Data Science</SelectItem>
-                    <SelectItem value="software-eng">Software Engineering</SelectItem>
+                    <SelectItem value="Deep Learning Implementation">Deep Learning Implementation</SelectItem>
+                    <SelectItem value="Graph ML Implementation">Graph ML Implementation</SelectItem>
+                    <SelectItem value="Quantum Computing">Quantum Computing</SelectItem>
+                    <SelectItem value="Generative Models">Generative Models</SelectItem>
+                    <SelectItem value="NLP Implementation">NLP Implementation</SelectItem>
+                    <SelectItem value="Reinforcement Learning">Reinforcement Learning</SelectItem>
+                    <SelectItem value="Computer Vision">Computer Vision</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -131,12 +190,12 @@ const InterviewForm: React.FC<InterviewFormProps> = ({ isOpen, onClose }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2 text-foreground/80">Video URL</label>
+              <label className="block text-sm font-medium mb-2 text-foreground/80">Image URL</label>
               <Input
-                placeholder="https://youtube.com/watch?v=..."
+                placeholder="https://example.com/image.jpg"
                 className="glass-card bg-white/5 border-white/10 focus:border-primary/50"
-                value={formData.videoUrl}
-                onChange={(e) => setFormData({ ...formData, videoUrl: e.target.value })}
+                value={formData.image_url}
+                onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
               />
             </div>
 
@@ -152,12 +211,20 @@ const InterviewForm: React.FC<InterviewFormProps> = ({ isOpen, onClose }) => {
               <Button variant="ghost" onClick={onClose} className="glass-card morphic-hover">
                 Cancel
               </Button>
-              <Button className="glass-card bg-primary/20 hover:bg-primary/30 border border-primary/30 text-primary morphic-hover pulse-glow">
-                <Sparkles className="w-4 h-4 mr-2" />
+              <Button 
+                type="submit"
+                disabled={loading}
+                className="glass-card bg-primary/20 hover:bg-primary/30 border border-primary/30 text-primary morphic-hover pulse-glow"
+              >
+                {loading ? (
+                  <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin mr-2" />
+                ) : (
+                  <Sparkles className="w-4 h-4 mr-2" />
+                )}
                 Publish Interview
               </Button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

@@ -1,10 +1,13 @@
 
 import React, { useState } from 'react';
-import { Search, Plus, User, Bell, Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Search, Plus, User, Bell, Menu, X, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks/useAuth';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, profile, signOut, isAdmin } = useAuth();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass-card border-b border-white/10">
@@ -36,12 +39,31 @@ const Header = () => {
             <a href="#" className="text-foreground/80 hover:text-foreground transition-colors morphic-hover">
               Categories
             </a>
-            <Button 
-              variant="ghost" 
-              className="glass-card border-white/20 hover:bg-white/5 text-primary font-medium morphic-hover"
-            >
-              Sign In
-            </Button>
+            {user ? (
+              <div className="flex items-center space-x-3">
+                <span className="text-sm text-foreground/70">
+                  {profile?.full_name || user.email}
+                  {isAdmin && <span className="ml-2 text-xs bg-primary/20 text-primary px-2 py-1 rounded">Admin</span>}
+                </span>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={signOut}
+                  className="glass-card border-white/20 hover:bg-white/5 morphic-hover"
+                >
+                  <LogOut className="w-4 h-4" />
+                </Button>
+              </div>
+            ) : (
+              <Link to="/auth">
+                <Button 
+                  variant="ghost" 
+                  className="glass-card border-white/20 hover:bg-white/5 text-primary font-medium morphic-hover"
+                >
+                  Sign In
+                </Button>
+              </Link>
+            )}
           </nav>
 
           {/* Search Bar */}

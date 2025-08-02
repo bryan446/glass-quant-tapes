@@ -11,7 +11,7 @@ interface InterviewCardProps {
   duration: string;
   category: string;
   description: string;
-  image?: string;
+  image_url?: string;
   date: string;
   likes?: number;
 }
@@ -24,7 +24,7 @@ const InterviewCard: React.FC<InterviewCardProps> = ({
   duration,
   category,
   description,
-  image,
+  image_url,
   date,
   likes = 0
 }) => {
@@ -40,8 +40,8 @@ const InterviewCard: React.FC<InterviewCardProps> = ({
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 glass-card rounded-xl flex items-center justify-center overflow-hidden">
-              {image ? (
-                <img src={image} alt={expert} className="w-full h-full object-cover" />
+              {image_url ? (
+                <img src={image_url} alt={expert} className="w-full h-full object-cover" />
               ) : (
                 <User className="w-6 h-6 text-primary" />
               )}

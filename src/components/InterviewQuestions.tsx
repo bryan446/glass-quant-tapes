@@ -20,7 +20,7 @@ const InterviewQuestions = () => {
   const questions: Question[] = [
     {
       id: 1,
-      category: 'Paper Implementation',
+      category: 'Deep Learning Implementation',
       difficulty: 'Advanced',
       question: 'Implement the Transformer architecture from "Attention Is All You Need" paper. Include multi-head attention, positional encoding, and the complete encoder-decoder structure.',
       topics: ['Attention Mechanisms', 'PyTorch', 'Neural Networks'],
@@ -29,16 +29,16 @@ const InterviewQuestions = () => {
     },
     {
       id: 2,
-      category: 'Algorithm Implementation',
+      category: 'Graph ML Implementation',
       difficulty: 'Intermediate',
-      question: 'Code the ResNet architecture from the original paper. Explain skip connections and implement the residual blocks with proper initialization.',
-      topics: ['Deep Learning', 'Computer Vision', 'Skip Connections'],
-      estimatedTime: '60 min',
+      question: 'Code Graph Convolutional Networks from Kipf & Welling paper. Implement message passing, aggregation functions, and handle variable graph sizes.',
+      topics: ['Graph Neural Networks', 'PyTorch Geometric', 'Sparse Matrices'],
+      estimatedTime: '75 min',
       icon: Code
     },
     {
       id: 3,
-      category: 'Research to Code',
+      category: 'NLP Implementation',
       difficulty: 'Advanced',
       question: 'Implement BERT from scratch following the original paper. Include WordPiece tokenization, masked language modeling, and next sentence prediction.',
       topics: ['NLP', 'Transformers', 'Self-Supervised Learning'],
@@ -47,7 +47,7 @@ const InterviewQuestions = () => {
     },
     {
       id: 4,
-      category: 'ML Algorithms',
+      category: 'Generative Models',
       difficulty: 'Intermediate',
       question: 'Implement Variational Autoencoder from Kingma & Welling paper. Include the reparameterization trick and ELBO loss function.',
       topics: ['Generative Models', 'Variational Inference', 'PyTorch'],
@@ -56,11 +56,11 @@ const InterviewQuestions = () => {
     },
     {
       id: 5,
-      category: 'Deep Learning',
+      category: 'Quantum Computing',
       difficulty: 'Advanced',
-      question: 'Code the GAN architecture from the original Goodfellow paper. Implement both generator and discriminator with proper training dynamics.',
-      topics: ['Generative Models', 'Adversarial Training', 'Neural Networks'],
-      estimatedTime: '90 min',
+      question: 'Implement Shor\'s algorithm from the original paper. Code the quantum Fourier transform and period finding algorithm using Qiskit.',
+      topics: ['Quantum Algorithms', 'Qiskit', 'Number Theory'],
+      estimatedTime: '110 min',
       icon: Calculator
     },
     {
@@ -100,7 +100,7 @@ const InterviewQuestions = () => {
           Interview Questions
         </h2>
         <p className="text-xl text-foreground/80 max-w-3xl mx-auto">
-          Master quantitative finance, algorithms, and mathematical concepts with our curated collection of interview questions.
+          Master research paper implementations with coding questions focused on translating cutting-edge algorithms into production code.
         </p>
       </div>
 

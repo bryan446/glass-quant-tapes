@@ -1,97 +1,56 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 import { TrendingUp, Users, Play, Filter, Grid, List } from 'lucide-react';
 import Header from '@/components/Header';
 import InterviewCard from '@/components/InterviewCard';
 import InterviewForm from '@/components/InterviewForm';
 import InterviewQuestions from '@/components/InterviewQuestions';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
 
 const Index = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [interviews, setInterviews] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { user, loading: authLoading, isAdmin } = useAuth();
 
-  // Research papers to code interviews
-  const interviews = [
-    {
-      id: 1,
-      title: "From Transformer Papers to Production: Implementing Attention Mechanisms",
-      expert: "Dr. Sarah Chen",
-      role: "ML Research Engineer",
-      company: "Google DeepMind",
-      duration: "52 min",
-      category: "Deep Learning Implementation",
-      description: "Breaking down the original Transformer paper and walking through a complete implementation from scratch. Learn how to translate research concepts into efficient, production-ready code.",
-      date: "2 days ago",
-      likes: 234,
-      image: "/placeholder.svg"
-    },
-    {
-      id: 2,
-      title: "Implementing Graph Neural Networks: From GCN Paper to Code",
-      expert: "Alex Rodriguez",
-      role: "Research Scientist",
-      company: "Facebook AI",
-      duration: "38 min",
-      category: "Graph ML Implementation",
-      description: "Step-by-step implementation of Graph Convolutional Networks based on Kipf & Welling's seminal paper. Includes PyTorch code walkthrough and optimization techniques.",
-      date: "1 week ago",
-      likes: 156,
-      image: "/placeholder.svg"
-    },
-    {
-      id: 3,
-      title: "Quantum Algorithm Implementation: Shor's Algorithm in Practice",
-      expert: "Prof. Michael Thompson",
-      role: "Quantum Computing Researcher",
-      company: "IBM Quantum",
-      duration: "44 min",
-      category: "Quantum Computing",
-      description: "Translating Shor's factorization algorithm from theoretical paper to working quantum circuit implementation using Qiskit. Real code examples included.",
-      date: "3 days ago",
-      likes: 89,
-      image: "/placeholder.svg"
-    },
-    {
-      id: 4,
-      title: "VAE Paper Implementation: Variational Autoencoders from Scratch",
-      expert: "Dr. Emma Watson",
-      role: "AI Research Engineer",
-      company: "OpenAI",
-      duration: "41 min",
-      category: "Generative Models",
-      description: "Complete implementation of Kingma & Welling's Variational Autoencoder paper. From mathematical derivations to working PyTorch code with practical tips.",
-      date: "5 days ago",
-      likes: 312,
-      image: "/placeholder.svg"
-    },
-    {
-      id: 5,
-      title: "BERT Implementation: From Paper to Hugging Face Compatible Code",
-      expert: "James Liu",
-      role: "NLP Research Engineer",
-      company: "Anthropic",
-      duration: "47 min",
-      category: "NLP Implementation",
-      description: "Building BERT from the ground up based on the original paper. Learn tokenization, attention mechanisms, and how to make your implementation compatible with existing frameworks.",
-      date: "1 week ago",
-      likes: 198,
-      image: "/placeholder.svg"
-    },
-    {
-      id: 6,
-      title: "Implementing Reinforcement Learning: DQN Paper to Working Agent",
-      expert: "Maria Garcia",
-      role: "RL Research Scientist",
-      company: "DeepMind",
-      duration: "55 min",
-      category: "Reinforcement Learning",
-      description: "Complete walkthrough of implementing Deep Q-Networks from the original DeepMind paper. Includes environment setup, neural network architecture, and training loop.",
-      date: "4 days ago",
-      likes: 267,
-      image: "/placeholder.svg"
+  // Fetch interviews from database
+  useEffect(() => {
+    fetchInterviews();
+  }, []);
+
+  const fetchInterviews = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('interviews')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setInterviews(data || []);
+    } catch (error) {
+      console.error('Error fetching interviews:', error);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  // Redirect to auth if not logged in
+  if (!authLoading && !user) {
+    return <Navigate to="/auth" replace />;
+  }
+
+  if (authLoading || loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
 
   const categories = [
     "All Categories",
@@ -134,12 +93,14 @@ const Index = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-              <Button 
-                onClick={() => setIsFormOpen(true)}
-                className="glass-card bg-primary/20 hover:bg-primary/30 border border-primary/30 text-primary px-8 py-4 text-lg morphic-hover pulse-glow"
-              >
-                Share Your Interview
-              </Button>
+              {isAdmin && (
+                <Button 
+                  onClick={() => setIsFormOpen(true)}
+                  className="glass-card bg-primary/20 hover:bg-primary/30 border border-primary/30 text-primary px-8 py-4 text-lg morphic-hover pulse-glow"
+                >
+                  Add Interview
+                </Button>
+              )}
               <Button 
                 variant="outline" 
                 className="glass-card border-white/20 hover:bg-white/5 px-8 py-4 text-lg morphic-hover"
@@ -234,7 +195,14 @@ const Index = () => {
       </section>
 
       {/* Interview Form Modal */}
-      <InterviewForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
+      <InterviewForm 
+        isOpen={isFormOpen} 
+        onClose={() => setIsFormOpen(false)}
+        onSuccess={() => {
+          setIsFormOpen(false);
+          fetchInterviews();
+        }}
+      />
     </div>
   );
 };
