@@ -1,9 +1,11 @@
 
 import React from 'react';
-import { Clock, User, Tag, ArrowUpRight, Heart, Share2 } from 'lucide-react';
+import { Clock, User, Tag, ArrowUpRight, Heart, Share2, Edit, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks/useAuth';
 
 interface InterviewCardProps {
+  id?: string;
   title: string;
   expert: string;
   role: string;
@@ -14,9 +16,12 @@ interface InterviewCardProps {
   image_url?: string;
   date: string;
   likes?: number;
+  onEdit?: (id: string) => void;
+  onDelete?: (id: string) => void;
 }
 
 const InterviewCard: React.FC<InterviewCardProps> = ({
+  id,
   title,
   expert,
   role,
@@ -26,8 +31,11 @@ const InterviewCard: React.FC<InterviewCardProps> = ({
   description,
   image_url,
   date,
-  likes = 0
+  likes = 0,
+  onEdit,
+  onDelete
 }) => {
+  const { isMasterAdmin } = useAuth();
   return (
     <div className="glass-card p-6 morphic-hover group cursor-pointer gradient-border">
       <div className="relative">
@@ -56,6 +64,34 @@ const InterviewCard: React.FC<InterviewCardProps> = ({
           <div className="glass-card px-3 py-1 rounded-full">
             <span className="text-xs font-medium text-accent">{category}</span>
           </div>
+          
+          {/* Admin Controls */}
+          {isMasterAdmin && id && (
+            <div className="flex items-center space-x-1 ml-2">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit?.(id);
+                }}
+                className="glass-card p-2 hover:bg-blue-500/20 hover:border-blue-500/30"
+              >
+                <Edit className="w-3 h-3 text-blue-400" />
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete?.(id);
+                }}
+                className="glass-card p-2 hover:bg-red-500/20 hover:border-red-500/30"
+              >
+                <Trash2 className="w-3 h-3 text-red-400" />
+              </Button>
+            </div>
+          )}
         </div>
 
         {/* Title */}

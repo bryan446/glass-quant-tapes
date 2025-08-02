@@ -24,7 +24,10 @@ const InterviewForm: React.FC<InterviewFormProps> = ({ isOpen, onClose, onSucces
     category: '',
     duration: '',
     description: '',
-    image_url: ''
+    image_url: '',
+    location: '',
+    topics: '',
+    interview_type: 'regular' as 'regular' | 'professional'
   });
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
@@ -36,6 +39,9 @@ const InterviewForm: React.FC<InterviewFormProps> = ({ isOpen, onClose, onSucces
 
     setLoading(true);
     try {
+      // Parse topics from comma-separated string to array
+      const topicsArray = formData.topics ? formData.topics.split(',').map(t => t.trim()).filter(t => t) : [];
+      
       const { error } = await supabase
         .from('interviews')
         .insert({
@@ -47,6 +53,9 @@ const InterviewForm: React.FC<InterviewFormProps> = ({ isOpen, onClose, onSucces
           duration: formData.duration,
           description: formData.description,
           image_url: formData.image_url,
+          location: formData.location,
+          topics: topicsArray,
+          interview_type: formData.interview_type,
           date: new Date().toLocaleDateString(),
           created_by: user.id
         });
@@ -67,14 +76,17 @@ const InterviewForm: React.FC<InterviewFormProps> = ({ isOpen, onClose, onSucces
         category: '',
         duration: '',
         description: '',
-        image_url: ''
+        image_url: '',
+        location: '',
+        topics: '',
+        interview_type: 'regular'
       });
 
       onSuccess?.();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         title: "Error",
-        description: error.message || "Failed to publish interview. Please try again.",
+        description: error instanceof Error ? error.message : "Failed to publish interview. Please try again.",
         variant: "destructive"
       });
     } finally {
@@ -159,12 +171,17 @@ const InterviewForm: React.FC<InterviewFormProps> = ({ isOpen, onClose, onSucces
                   </SelectTrigger>
                   <SelectContent className="glass-card bg-background border-white/10">
                     <SelectItem value="Deep Learning Implementation">Deep Learning Implementation</SelectItem>
+                    <SelectItem value="Deep Learning Research">Deep Learning Research</SelectItem>
                     <SelectItem value="Graph ML Implementation">Graph ML Implementation</SelectItem>
                     <SelectItem value="Quantum Computing">Quantum Computing</SelectItem>
+                    <SelectItem value="Quantitative Finance">Quantitative Finance</SelectItem>
+                    <SelectItem value="Machine Learning in Finance">Machine Learning in Finance</SelectItem>
                     <SelectItem value="Generative Models">Generative Models</SelectItem>
                     <SelectItem value="NLP Implementation">NLP Implementation</SelectItem>
                     <SelectItem value="Reinforcement Learning">Reinforcement Learning</SelectItem>
                     <SelectItem value="Computer Vision">Computer Vision</SelectItem>
+                    <SelectItem value="AI Safety & Alignment">AI Safety & Alignment</SelectItem>
+                    <SelectItem value="MLOps & Infrastructure">MLOps & Infrastructure</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -177,6 +194,41 @@ const InterviewForm: React.FC<InterviewFormProps> = ({ isOpen, onClose, onSucces
                   onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
                 />
               </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-2 text-foreground/80">Location</label>
+                <Input
+                  placeholder="e.g., New York, NY or London, UK"
+                  className="glass-card bg-white/5 border-white/10 focus:border-primary/50"
+                  value={formData.location}
+                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2 text-foreground/80">Interview Type</label>
+                <Select value={formData.interview_type} onValueChange={(value: 'regular' | 'professional') => setFormData({ ...formData, interview_type: value })}>
+                  <SelectTrigger className="glass-card bg-white/5 border-white/10 focus:border-primary/50">
+                    <SelectValue placeholder="Select type" />
+                  </SelectTrigger>
+                  <SelectContent className="glass-card bg-background border-white/10">
+                    <SelectItem value="regular">Regular Interview</SelectItem>
+                    <SelectItem value="professional">Professional Interview</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2 text-foreground/80">Topics</label>
+              <Input
+                placeholder="e.g., Machine Learning, Python, Trading Algorithms (comma-separated)"
+                className="glass-card bg-white/5 border-white/10 focus:border-primary/50"
+                value={formData.topics}
+                onChange={(e) => setFormData({ ...formData, topics: e.target.value })}
+              />
+              <p className="text-xs text-foreground/60 mt-1">Separate topics with commas. These will appear as tags and filter categories.</p>
             </div>
 
             <div>
