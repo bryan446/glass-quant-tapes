@@ -11,82 +11,82 @@ const Index = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
-  // Sample interview data
+  // Research papers to code interviews
   const interviews = [
     {
       id: 1,
-      title: "The Future of Algorithmic Trading with Machine Learning",
+      title: "From Transformer Papers to Production: Implementing Attention Mechanisms",
       expert: "Dr. Sarah Chen",
-      role: "Head of Quantitative Research",
-      company: "Two Sigma",
+      role: "ML Research Engineer",
+      company: "Google DeepMind",
       duration: "52 min",
-      category: "Quantitative Finance",
-      description: "Exploring cutting-edge machine learning techniques in high-frequency trading, risk management, and portfolio optimization. Dr. Chen shares insights from her 15 years in quantitative finance.",
+      category: "Deep Learning Implementation",
+      description: "Breaking down the original Transformer paper and walking through a complete implementation from scratch. Learn how to translate research concepts into efficient, production-ready code.",
       date: "2 days ago",
       likes: 234,
       image: "/placeholder.svg"
     },
     {
       id: 2,
-      title: "Building Resilient Distributed Systems at Scale",
+      title: "Implementing Graph Neural Networks: From GCN Paper to Code",
       expert: "Alex Rodriguez",
-      role: "Principal Engineer",
-      company: "Netflix",
+      role: "Research Scientist",
+      company: "Facebook AI",
       duration: "38 min",
-      category: "Software Engineering",
-      description: "Deep dive into architecting systems that can handle millions of concurrent users. Learn about microservices, chaos engineering, and the mindset needed for large-scale distributed systems.",
+      category: "Graph ML Implementation",
+      description: "Step-by-step implementation of Graph Convolutional Networks based on Kipf & Welling's seminal paper. Includes PyTorch code walkthrough and optimization techniques.",
       date: "1 week ago",
       likes: 156,
       image: "/placeholder.svg"
     },
     {
       id: 3,
-      title: "Cryptographic Security in the Age of Quantum Computing",
+      title: "Quantum Algorithm Implementation: Shor's Algorithm in Practice",
       expert: "Prof. Michael Thompson",
-      role: "Research Scientist",
-      company: "IBM Research",
+      role: "Quantum Computing Researcher",
+      company: "IBM Quantum",
       duration: "44 min",
-      category: "Cybersecurity",
-      description: "Understanding quantum-resistant cryptography and preparing for the post-quantum world. Insights into current research and practical implications for modern security systems.",
+      category: "Quantum Computing",
+      description: "Translating Shor's factorization algorithm from theoretical paper to working quantum circuit implementation using Qiskit. Real code examples included.",
       date: "3 days ago",
       likes: 89,
       image: "/placeholder.svg"
     },
     {
       id: 4,
-      title: "Data Science in Climate Change Research",
+      title: "VAE Paper Implementation: Variational Autoencoders from Scratch",
       expert: "Dr. Emma Watson",
-      role: "Climate Data Scientist",
-      company: "NOAA",
+      role: "AI Research Engineer",
+      company: "OpenAI",
       duration: "41 min",
-      category: "Data Science",
-      description: "How machine learning and big data analytics are revolutionizing climate science. From predictive modeling to real-time environmental monitoring systems.",
+      category: "Generative Models",
+      description: "Complete implementation of Kingma & Welling's Variational Autoencoder paper. From mathematical derivations to working PyTorch code with practical tips.",
       date: "5 days ago",
       likes: 312,
       image: "/placeholder.svg"
     },
     {
       id: 5,
-      title: "Autonomous Systems and Real-time Decision Making",
+      title: "BERT Implementation: From Paper to Hugging Face Compatible Code",
       expert: "James Liu",
-      role: "AI Research Lead",
-      company: "Waymo",
+      role: "NLP Research Engineer",
+      company: "Anthropic",
       duration: "47 min",
-      category: "Artificial Intelligence",
-      description: "Inside the world of self-driving cars: computer vision, sensor fusion, and the challenges of making split-second decisions in complex environments.",
+      category: "NLP Implementation",
+      description: "Building BERT from the ground up based on the original paper. Learn tokenization, attention mechanisms, and how to make your implementation compatible with existing frameworks.",
       date: "1 week ago",
       likes: 198,
       image: "/placeholder.svg"
     },
     {
       id: 6,
-      title: "DeFi Protocols and Smart Contract Architecture",
+      title: "Implementing Reinforcement Learning: DQN Paper to Working Agent",
       expert: "Maria Garcia",
-      role: "Blockchain Architect",
-      company: "Ethereum Foundation",
+      role: "RL Research Scientist",
+      company: "DeepMind",
       duration: "55 min",
-      category: "Blockchain",
-      description: "Exploring the technical foundations of decentralized finance. From automated market makers to yield farming protocols and the future of programmable money.",
+      category: "Reinforcement Learning",
+      description: "Complete walkthrough of implementing Deep Q-Networks from the original DeepMind paper. Includes environment setup, neural network architecture, and training loop.",
       date: "4 days ago",
       likes: 267,
       image: "/placeholder.svg"
@@ -95,13 +95,12 @@ const Index = () => {
 
   const categories = [
     "All Categories",
-    "Quantitative Finance",
-    "Machine Learning",
-    "Artificial Intelligence",
-    "Blockchain",
-    "Cybersecurity",
-    "Data Science",
-    "Software Engineering"
+    "Deep Learning Implementation",
+    "Graph ML Implementation", 
+    "Quantum Computing",
+    "Generative Models",
+    "NLP Implementation",
+    "Reinforcement Learning"
   ];
 
   const stats = [
@@ -125,13 +124,13 @@ const Index = () => {
             <div className="floating-particle" style={{ top: '60%', right: '30%' }}></div>
             <div className="floating-particle" style={{ bottom: '40%', right: '10%' }}></div>
             
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 glow-text bg-gradient-to-r from-white via-accent to-primary bg-clip-text text-transparent tracking-tight">
-              Quantitative Insights
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-6 glow-text bg-gradient-to-r from-white via-accent to-primary bg-clip-text text-transparent tracking-tight">
+              Research Papers
               <br />
-              <span className="text-4xl md:text-6xl">Amplified</span>
+              <span className="text-3xl sm:text-4xl md:text-6xl">To Code</span>
             </h1>
-            <p className="text-xl md:text-2xl text-foreground/80 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Discover insights from the brightest minds in technology. From quantum computing to algorithmic trading, explore the future through expert conversations.
+            <p className="text-lg sm:text-xl md:text-2xl text-foreground/80 mb-8 max-w-3xl mx-auto leading-relaxed px-4">
+              Transform cutting-edge research into production-ready code. Watch experts implement papers from DeepMind, OpenAI, and top conferences step-by-step.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
@@ -168,20 +167,17 @@ const Index = () => {
       </section>
 
       {/* Filters Section */}
-      <section className="px-6 mb-8">
+      <section className="px-4 sm:px-6 mb-8">
         <div className="container mx-auto">
-          <div className="glass-card p-6 rounded-2xl">
+          <div className="glass-card p-4 sm:p-6 rounded-2xl">
             <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2 justify-center sm:justify-start">
                 {categories.map((category, index) => (
                   <Button
                     key={index}
-                    variant={index === 0 ? "default" : "ghost"}
-                    className={`glass-card morphic-hover ${
-                      index === 0 
-                        ? "bg-primary/20 border-primary/30 text-primary" 
-                        : "border-white/10 hover:bg-white/5"
-                    }`}
+                    variant={index === 0 ? "default" : "outline"}
+                    size="sm"
+                    className="text-xs sm:text-sm"
                   >
                     {category}
                   </Button>
@@ -189,7 +185,7 @@ const Index = () => {
               </div>
               
               <div className="flex items-center gap-2">
-                <Button variant="ghost" className="glass-card morphic-hover">
+                <Button variant="outline" size="sm">
                   <Filter className="w-4 h-4 mr-2" />
                   Filters
                 </Button>
@@ -198,7 +194,6 @@ const Index = () => {
                     variant={viewMode === 'grid' ? 'default' : 'ghost'}
                     size="sm"
                     onClick={() => setViewMode('grid')}
-                    className={viewMode === 'grid' ? "bg-primary/20 text-primary" : ""}
                   >
                     <Grid className="w-4 h-4" />
                   </Button>
@@ -206,7 +201,6 @@ const Index = () => {
                     variant={viewMode === 'list' ? 'default' : 'ghost'}
                     size="sm"
                     onClick={() => setViewMode('list')}
-                    className={viewMode === 'list' ? "bg-primary/20 text-primary" : ""}
                   >
                     <List className="w-4 h-4" />
                   </Button>

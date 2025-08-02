@@ -20,56 +20,56 @@ const InterviewQuestions = () => {
   const questions: Question[] = [
     {
       id: 1,
-      category: 'Quantitative Finance',
+      category: 'Paper Implementation',
       difficulty: 'Advanced',
-      question: 'Explain the Black-Scholes model and derive the formula for European call option pricing. How would you modify it for American options?',
-      topics: ['Options Pricing', 'Stochastic Calculus', 'Risk-Neutral Valuation'],
-      estimatedTime: '45 min',
-      icon: TrendingUp
-    },
-    {
-      id: 2,
-      category: 'Machine Learning',
-      difficulty: 'Intermediate',
-      question: 'Design a machine learning system to predict stock price movements. What features would you use and how would you handle overfitting?',
-      topics: ['Feature Engineering', 'Time Series', 'Regularization'],
-      estimatedTime: '30 min',
+      question: 'Implement the Transformer architecture from "Attention Is All You Need" paper. Include multi-head attention, positional encoding, and the complete encoder-decoder structure.',
+      topics: ['Attention Mechanisms', 'PyTorch', 'Neural Networks'],
+      estimatedTime: '90 min',
       icon: Brain
     },
     {
-      id: 3,
-      category: 'Algorithm Design',
-      difficulty: 'Advanced',
-      question: 'Implement an efficient algorithm for portfolio optimization with transaction costs and real-time risk constraints.',
-      topics: ['Dynamic Programming', 'Optimization', 'Risk Management'],
+      id: 2,
+      category: 'Algorithm Implementation',
+      difficulty: 'Intermediate',
+      question: 'Code the ResNet architecture from the original paper. Explain skip connections and implement the residual blocks with proper initialization.',
+      topics: ['Deep Learning', 'Computer Vision', 'Skip Connections'],
       estimatedTime: '60 min',
       icon: Code
     },
     {
-      id: 4,
-      category: 'Data Structures',
-      difficulty: 'Intermediate',
-      question: 'Design a data structure for real-time order book management that supports fast insertions, deletions, and price level queries.',
-      topics: ['Binary Trees', 'Hash Tables', 'Order Book'],
-      estimatedTime: '40 min',
+      id: 3,
+      category: 'Research to Code',
+      difficulty: 'Advanced',
+      question: 'Implement BERT from scratch following the original paper. Include WordPiece tokenization, masked language modeling, and next sentence prediction.',
+      topics: ['NLP', 'Transformers', 'Self-Supervised Learning'],
+      estimatedTime: '120 min',
       icon: Database
     },
     {
+      id: 4,
+      category: 'ML Algorithms',
+      difficulty: 'Intermediate',
+      question: 'Implement Variational Autoencoder from Kingma & Welling paper. Include the reparameterization trick and ELBO loss function.',
+      topics: ['Generative Models', 'Variational Inference', 'PyTorch'],
+      estimatedTime: '75 min',
+      icon: TrendingUp
+    },
+    {
       id: 5,
-      category: 'Mathematical Finance',
+      category: 'Deep Learning',
       difficulty: 'Advanced',
-      question: 'Explain Monte Carlo methods for pricing exotic derivatives. How would you implement variance reduction techniques?',
-      topics: ['Monte Carlo', 'Derivatives', 'Variance Reduction'],
-      estimatedTime: '50 min',
+      question: 'Code the GAN architecture from the original Goodfellow paper. Implement both generator and discriminator with proper training dynamics.',
+      topics: ['Generative Models', 'Adversarial Training', 'Neural Networks'],
+      estimatedTime: '90 min',
       icon: Calculator
     },
     {
       id: 6,
-      category: 'Cryptography',
-      difficulty: 'Intermediate',
-      question: 'Design a secure trading system that ensures order confidentiality while maintaining market transparency.',
-      topics: ['Cryptographic Protocols', 'Zero-Knowledge Proofs', 'Security'],
-      estimatedTime: '35 min',
+      category: 'Reinforcement Learning',
+      difficulty: 'Advanced',
+      question: 'Implement Deep Q-Network (DQN) from the DeepMind paper. Include experience replay, target networks, and epsilon-greedy exploration.',
+      topics: ['RL Algorithms', 'Q-Learning', 'Neural Networks'],
+      estimatedTime: '100 min',
       icon: Lock
     }
   ];
