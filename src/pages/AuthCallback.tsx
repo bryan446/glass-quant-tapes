@@ -35,7 +35,37 @@ const AuthCallback = () => {
         
         console.log('Processing OAuth callback...');
         
-        // Handle the OAuth callback using the exchangeCodeForSession method
+        // For OAuth with PKCE (which Supabase uses), we need to exchange the code
+        if (hasAuthCode) {
+          console.log('Exchanging code for session...');
+          const code = searchParams.get('code');
+          const { data, error } = await supabase.auth.exchangeCodeForSession(code!);
+          
+          if (error) {
+            console.error('Code exchange error:', error);
+            toast({
+              title: "Authentication Error",
+              description: error.message,
+              variant: "destructive"
+            });
+            setIsProcessing(false);
+            navigate('/auth', { replace: true });
+            return;
+          }
+          
+          if (data.session) {
+            console.log('OAuth login successful:', data.session.user.email);
+            toast({
+              title: "Welcome!",
+              description: "Successfully signed in with Google.",
+            });
+            setIsProcessing(false);
+            navigate('/home', { replace: true });
+            return;
+          }
+        }
+        
+        // Fallback: Handle the OAuth callback using getSession
         const { data, error } = await supabase.auth.getSession();
         
         if (error) {
