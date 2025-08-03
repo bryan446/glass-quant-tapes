@@ -82,18 +82,19 @@ const Auth = () => {
 
   const handleGoogleAuth = async () => {
     try {
-      // Determine the correct redirect URL based on environment
+      // Get the current origin and ensure it matches your Supabase OAuth settings
       const currentOrigin = window.location.origin;
-      const redirectTo = currentOrigin.includes('localhost') 
-        ? `${currentOrigin}/auth/callback`
-        : `${currentOrigin}/auth/callback`;
+      const redirectTo = `${currentOrigin}/auth/callback`;
       
       console.log('OAuth redirect will go to:', redirectTo);
+      console.log('Current origin:', currentOrigin);
       
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: redirectTo
+          redirectTo: redirectTo,
+          // Add scopes if needed
+          scopes: 'email profile'
         }
       });
 
