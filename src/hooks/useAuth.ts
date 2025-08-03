@@ -87,9 +87,24 @@ export const useAuth = () => {
 
   const signOut = async () => {
     try {
+      console.log('=== SIGN OUT DEBUG ===');
       console.log('Starting sign out process...');
+      console.log('Current URL before signout:', window.location.href);
       
-      // Clear all local state immediately
+      // Sign out from Supabase FIRST (before clearing local state)
+      console.log('Calling Supabase signOut...');
+      const { error } = await supabase.auth.signOut({
+        scope: 'global' // This signs out from all sessions
+      });
+      
+      if (error) {
+        console.error('Supabase signOut error:', error);
+        // Continue with cleanup even if there's an error
+      } else {
+        console.log('Supabase signOut successful');
+      }
+      
+      // Clear all local state after Supabase signout
       setLoading(true);
       setUser(null);
       setSession(null);
@@ -108,25 +123,20 @@ export const useAuth = () => {
           keysToRemove.push(key);
         }
       }
+      console.log('Removing localStorage keys:', keysToRemove);
       keysToRemove.forEach(key => localStorage.removeItem(key));
       
       // Clear sessionStorage as well
       sessionStorage.clear();
       
-      // Sign out from Supabase
-      const { error } = await supabase.auth.signOut({
-        scope: 'global' // This signs out from all sessions
-      });
+      console.log('Sign out completed, redirecting to /auth');
+      console.log('Will redirect to:', window.location.origin + '/auth');
       
-      if (error) {
-        console.error('Supabase signOut error:', error);
-      }
-      
-      console.log('Sign out completed, redirecting...');
-      
-      // Use navigate instead of window.location.replace to avoid issues
-      // Force a complete page reload to clear any cached auth state
-      window.location.href = '/auth';
+      // Add a small delay to ensure cleanup is complete
+      setTimeout(() => {
+        // Use window.location.replace to avoid adding to history
+        window.location.replace('/auth');
+      }, 100);
       
     } catch (error) {
       console.error('Error during sign out:', error);
@@ -145,7 +155,10 @@ export const useAuth = () => {
       setSession(null);
       setProfile(null);
       setIsGuest(false);
-      window.location.href = '/auth';
+      
+      setTimeout(() => {
+        window.location.replace('/auth');
+      }, 100);
     }
   };
 

@@ -86,10 +86,12 @@ const Auth = () => {
       const currentOrigin = window.location.origin;
       const redirectTo = `${currentOrigin}/auth/callback`;
       
+      console.log('=== GOOGLE OAUTH DEBUG ===');
       console.log('OAuth redirect will go to:', redirectTo);
       console.log('Current origin:', currentOrigin);
+      console.log('Full current URL:', window.location.href);
       
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: redirectTo,
@@ -105,6 +107,8 @@ const Auth = () => {
           description: error.message,
           variant: "destructive"
         });
+      } else {
+        console.log('OAuth initiation successful, redirecting to Google...');
       }
     } catch (error) {
       console.error('Unexpected error:', error);

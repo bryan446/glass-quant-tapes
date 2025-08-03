@@ -12,10 +12,27 @@ const AuthCallback = () => {
   useEffect(() => {
     const handleAuthCallback = async () => {
       try {
+        console.log('=== AUTH CALLBACK DEBUG ===');
         console.log('AuthCallback component loaded');
         console.log('Current URL:', window.location.href);
         console.log('Search params:', window.location.search);
         console.log('Hash:', window.location.hash);
+        
+        // Check for error parameters first
+        const errorParam = searchParams.get('error');
+        const errorDescription = searchParams.get('error_description');
+        
+        if (errorParam) {
+          console.error('OAuth error received:', errorParam, errorDescription);
+          toast({
+            title: "Authentication Error",
+            description: errorDescription || errorParam,
+            variant: "destructive"
+          });
+          setIsProcessing(false);
+          navigate('/auth', { replace: true });
+          return;
+        }
         
         // More comprehensive check for OAuth parameters
         const hasAuthCode = searchParams.has('code');
@@ -26,7 +43,7 @@ const AuthCallback = () => {
         console.log('Auth params check:', { hasAuthCode, hasAccessToken, hasRefreshToken, hasAuthParams });
         
         if (!hasAuthParams) {
-          console.log('No OAuth parameters found - this might be a direct access');
+          console.log('No OAuth parameters found - this might be a direct access or sign-out redirect');
           console.log('Redirecting to auth page...');
           setIsProcessing(false);
           navigate('/auth', { replace: true });
@@ -39,7 +56,20 @@ const AuthCallback = () => {
         if (hasAuthCode) {
           console.log('Exchanging code for session...');
           const code = searchParams.get('code');
-          const { data, error } = await supabase.auth.exchangeCodeForSession(code!);
+          
+          if (!code) {
+            console.error('Code parameter is missing');
+            toast({
+              title: "Authentication Error",
+              description: "Authorization code is missing",
+              variant: "destructive"
+            });
+            setIsProcessing(false);
+            navigate('/auth', { replace: true });
+            return;
+          }
+          
+          const { data, error } = await supabase.auth.exchangeCodeForSession(code);
           
           if (error) {
             console.error('Code exchange error:', error);
@@ -54,7 +84,7 @@ const AuthCallback = () => {
           }
           
           if (data.session) {
-            console.log('OAuth login successful:', data.session.user.email);
+            console.log('OAuth login successful via code exchange:', data.session.user.email);
             toast({
               title: "Welcome!",
               description: "Successfully signed in with Google.",
@@ -65,11 +95,12 @@ const AuthCallback = () => {
           }
         }
         
-        // Fallback: Handle the OAuth callback using getSession
+        // Fallback: Try to get session (for implicit flow or edge cases)
+        console.log('Attempting to get existing session...');
         const { data, error } = await supabase.auth.getSession();
         
         if (error) {
-          console.error('OAuth callback error:', error);
+          console.error('Session retrieval error:', error);
           toast({
             title: "Authentication Error",
             description: error.message,
@@ -81,7 +112,7 @@ const AuthCallback = () => {
         }
 
         if (data.session) {
-          console.log('OAuth login successful:', data.session.user.email);
+          console.log('OAuth login successful via session:', data.session.user.email);
           toast({
             title: "Welcome!",
             description: "Successfully signed in with Google.",
@@ -89,7 +120,8 @@ const AuthCallback = () => {
           setIsProcessing(false);
           navigate('/home', { replace: true });
         } else {
-          console.log('No session found after OAuth callback');
+          console.log('No session found after OAuth callback - this might be normal for some flows');
+          console.log('Redirecting to auth page...');
           setIsProcessing(false);
           navigate('/auth', { replace: true });
         }
