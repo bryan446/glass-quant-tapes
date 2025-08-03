@@ -99,7 +99,16 @@ export const useAuth = () => {
       // Clear all possible localStorage items
       localStorage.removeItem('guestMode');
       localStorage.removeItem('supabase.auth.token');
-      localStorage.clear();
+      
+      // Clear specific Supabase auth keys
+      const keysToRemove = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('supabase.auth.')) {
+          keysToRemove.push(key);
+        }
+      }
+      keysToRemove.forEach(key => localStorage.removeItem(key));
       
       // Clear sessionStorage as well
       sessionStorage.clear();
@@ -115,19 +124,28 @@ export const useAuth = () => {
       
       console.log('Sign out completed, redirecting...');
       
+      // Use navigate instead of window.location.replace to avoid issues
       // Force a complete page reload to clear any cached auth state
-      window.location.replace('/auth');
+      window.location.href = '/auth';
       
     } catch (error) {
       console.error('Error during sign out:', error);
       // Force clear everything and redirect anyway
-      localStorage.clear();
+      const keysToRemove = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('supabase.auth.')) {
+          keysToRemove.push(key);
+        }
+      }
+      keysToRemove.forEach(key => localStorage.removeItem(key));
+      localStorage.removeItem('guestMode');
       sessionStorage.clear();
       setUser(null);
       setSession(null);
       setProfile(null);
       setIsGuest(false);
-      window.location.replace('/auth');
+      window.location.href = '/auth';
     }
   };
 
